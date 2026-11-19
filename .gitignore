@@ -1,0 +1,18 @@
+# Archivos temporales de Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Carpetas de compilacion
+bin/
+obj/
+Debug/
+Release/
+x64/
+x86/
+
+# Resultados de pruebas y logs
+TestResults/
+*.log
