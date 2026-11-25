@@ -8,11 +8,13 @@ namespace Poker
 {
     public partial class Form1 : Form
     {
-        private const int PosicionYJugador = 452;
+        private const int PosicionYJugador = 484;
         private const int DesplazamientoSeleccion = 15;
         private const int Ante = 50;
 
         private Baraja baraja;
+        private MotorIA motorIA;
+        private DecisionIA decisionActualIA;
         private List<Carta> manoJugador;
         private List<Carta> manoIA;
 
@@ -37,6 +39,7 @@ namespace Poker
         {
             InitializeComponent();
             baraja = new Baraja();
+            motorIA = new MotorIA();
             manoJugador = new List<Carta>();
             manoIA = new List<Carta>();
 
@@ -45,6 +48,7 @@ namespace Poker
             etiquetasSeleccion = new Label[] { lblSel0, lblSel1, lblSel2, lblSel3, lblSel4 };
 
             CargarImagenesInterfaz();
+            CargarListaEscenarios();
         }
 
         private void CargarImagenesInterfaz()
@@ -57,7 +61,46 @@ namespace Poker
             AsignarImagenPictureBox(picFicha250, CargarImagenCarta("ficha_250.png"));
         }
 
+        private void CargarListaEscenarios()
+        {
+            List<EscenarioDemo> escenarios = PruebasPoker.ObtenerEscenariosDemo();
+            cmbEscenarios.Items.Clear();
+            for (int i = 0; i < escenarios.Count; i++)
+            {
+                cmbEscenarios.Items.Add(escenarios[i]);
+            }
+            if (cmbEscenarios.Items.Count > 0)
+            {
+                cmbEscenarios.SelectedIndex = 0;
+            }
+        }
+
         private void btnRepartir_Click(object sender, EventArgs e)
+        {
+            baraja.Reiniciar();
+            baraja.Barajar();
+
+            manoJugador = baraja.RepartirMano(5);
+            manoIA = baraja.RepartirMano(5);
+
+            IniciarRonda("Selecciona las cartas a cambiar y presiona 'Cambiar Cartas'.",
+                "Esperando tu turno...");
+        }
+
+        private void btnCargarEscenario_Click(object sender, EventArgs e)
+        {
+            EscenarioDemo escenario = cmbEscenarios.SelectedItem as EscenarioDemo;
+            if (escenario == null)
+            {
+                return;
+            }
+
+            PruebasPoker.PrepararEscenarioEnBaraja(escenario, baraja, out manoJugador, out manoIA);
+            IniciarRonda("Escenario cargado: " + escenario.Nombre,
+                "IA lista para evaluar su mano.");
+        }
+
+        private void IniciarRonda(string mensajeEstado, string mensajeIA)
         {
             if (fichasJugador < Ante || fichasIA < Ante)
             {
@@ -70,15 +113,10 @@ namespace Poker
             pozo = Ante * 2;
             apuestaActual = 0;
 
-            baraja.Reiniciar();
-            baraja.Barajar();
-
-            manoJugador = baraja.RepartirMano(5);
-            manoIA = baraja.RepartirMano(5);
-
             rondaActiva = true;
             cambioRealizado = false;
             faseApuesta = false;
+            decisionActualIA = null;
 
             btnCambiar.Enabled = true;
             btnCambiar.Text = "Cambiar Cartas (0)";
@@ -87,9 +125,10 @@ namespace Poker
             MostrarCartasJugador();
             MostrarCartasIA(true);
 
-            lblEstado.Text = "Selecciona las cartas que quieras cambiar y presiona 'Cambiar Cartas'.";
-            lblDecisionIA.Text = "Turno del jugador...";
-            lblManoJugador.Text = "";
+            ResultadoEvaluacion evalInicial = EvaluadorManos.Evaluar(manoJugador);
+            lblManoJugador.Text = "Tu jugada actual: " + evalInicial.DescripcionDetallada;
+            lblEstado.Text = mensajeEstado;
+            lblDecisionIA.Text = mensajeIA;
             ActualizarTextoApuesta();
             ActualizarTextoFichas();
             ActualizarTextoMazo();
@@ -124,16 +163,21 @@ namespace Poker
                 return;
             }
 
-            int cantidadCambiada = 0;
             for (int i = 0; i < manoJugador.Count; i++)
             {
                 if (manoJugador[i].Seleccionada)
                 {
                     manoJugador[i] = baraja.RepartirCarta();
-                    cantidadCambiada++;
                 }
                 manoJugador[i].Seleccionada = false;
                 etiquetasSeleccion[i].Visible = false;
+            }
+
+            decisionActualIA = motorIA.DecidirCambios(manoIA);
+            for (int i = 0; i < decisionActualIA.IndicesACambiar.Count; i++)
+            {
+                int idx = decisionActualIA.IndicesACambiar[i];
+                manoIA[idx] = baraja.RepartirCarta();
             }
 
             cambioRealizado = true;
@@ -145,13 +189,16 @@ namespace Poker
             MostrarCartasIA(true);
             ActualizarTextoMazo();
 
+            ResultadoEvaluacion evalJugador = EvaluadorManos.Evaluar(manoJugador);
+            lblManoJugador.Text = "Tu jugada actual: " + evalJugador.DescripcionDetallada;
+
             int maxApuesta = Math.Min(fichasJugador, fichasIA);
             apuestaActual = Math.Min(50, maxApuesta);
             ActualizarTextoApuesta();
             HabilitarControlesApuesta(true);
 
-            lblEstado.Text = "Cambiaste " + cantidadCambiada + " carta(s). Usa las fichas para apostar o presiona 'Retirarse'.";
-            lblDecisionIA.Text = "Fase de apuesta...";
+            lblDecisionIA.Text = "La IA cambio " + decisionActualIA.IndicesACambiar.Count + " carta(s). Esperando tu apuesta...";
+            lblEstado.Text = "Usa las fichas para apostar o presiona 'Retirarse'.";
         }
 
         private void picFicha25_Click(object sender, EventArgs e)
@@ -208,21 +255,81 @@ namespace Poker
                 return;
             }
 
-            fichasJugador -= apuestaActual;
-            fichasIA -= apuestaActual;
-            pozo += apuestaActual * 2;
+            int apuestaJugador = apuestaActual;
+            fichasJugador -= apuestaJugador;
+            pozo += apuestaJugador;
+
+            int fichasMaximasSubida = Math.Min(fichasJugador, fichasIA - apuestaJugador);
+            DecisionApuestaIA decApuesta = motorIA.DecidirApuesta(manoIA, apuestaJugador, fichasMaximasSubida);
 
             HabilitarControlesApuesta(false);
             faseApuesta = false;
             rondaActiva = false;
 
-            MostrarCartasIA(false);
-            ActualizarTextoFichas();
+            string textoCambioIA = decisionActualIA != null ? decisionActualIA.Explicacion + " | " : "";
 
-            lblEstado.Text = (apuestaActual == 0)
-                ? "Pasaste (Pozo final: $" + pozo + "). Fin de la ronda."
-                : "Apostaste $" + apuestaActual + " (Pozo final: $" + pozo + "). Fin de la ronda.";
-            lblDecisionIA.Text = "Cartas de la computadora reveladas.";
+            if (decApuesta.Accion == AccionApuesta.Retirarse)
+            {
+                fichasJugador += pozo;
+                pozo = 0;
+                victoriasJugador++;
+
+                MostrarCartasIA(false);
+                ActualizarTextoFichas();
+                ActualizarMarcador();
+
+                lblDecisionIA.Text = textoCambioIA + decApuesta.Explicacion;
+                lblEstado.Text = "La IA se retiro. Ganaste el pozo.";
+                return;
+            }
+
+            fichasIA -= apuestaJugador;
+            pozo += apuestaJugador;
+
+            if (decApuesta.Accion == AccionApuesta.Subir && decApuesta.MontoSubida > 0)
+            {
+                int subida = Math.Min(decApuesta.MontoSubida, Math.Min(fichasJugador, fichasIA));
+                fichasJugador -= subida;
+                fichasIA -= subida;
+                pozo += subida * 2;
+            }
+
+            MostrarCartasIA(false);
+
+            ResultadoEvaluacion evalJugador = EvaluadorManos.Evaluar(manoJugador);
+            ResultadoEvaluacion evalIA = EvaluadorManos.Evaluar(manoIA);
+
+            lblManoJugador.Text = "Tu jugada final: " + evalJugador.DescripcionDetallada;
+            lblDecisionIA.Text = textoCambioIA + decApuesta.Explicacion + " | Mano final IA: " + evalIA.DescripcionDetallada;
+
+            int comparacion = evalJugador.CompararCon(evalIA);
+            if (comparacion > 0)
+            {
+                victoriasJugador++;
+                fichasJugador += pozo;
+                lblEstado.Text = string.Format("Ganaste +${0} con {1} contra {2}.",
+                    pozo, evalJugador.DescripcionDetallada, evalIA.DescripcionDetallada);
+                pozo = 0;
+            }
+            else if (comparacion < 0)
+            {
+                victoriasIA++;
+                fichasIA += pozo;
+                lblEstado.Text = string.Format("Gana la Computadora (+${0}) con {1} contra {2}.",
+                    pozo, evalIA.DescripcionDetallada, evalJugador.DescripcionDetallada);
+                pozo = 0;
+            }
+            else
+            {
+                empates++;
+                int mitad = pozo / 2;
+                fichasJugador += mitad;
+                fichasIA += (pozo - mitad);
+                pozo = 0;
+                lblEstado.Text = string.Format("Empate con {0}. Se reparte el pozo.", evalJugador.DescripcionDetallada);
+            }
+
+            ActualizarTextoFichas();
             ActualizarMarcador();
         }
 
@@ -245,8 +352,15 @@ namespace Poker
             ActualizarTextoFichas();
             ActualizarMarcador();
 
+            lblDecisionIA.Text = decisionActualIA != null ? decisionActualIA.Explicacion : "La IA gana por retiro.";
             lblEstado.Text = "Te retiraste. La computadora gana el pozo.";
-            lblDecisionIA.Text = "Cartas de la computadora reveladas.";
+        }
+
+        private void btnPruebas_Click(object sender, EventArgs e)
+        {
+            string reporte;
+            PruebasPoker.EjecutarBateriaPruebas(out reporte);
+            MessageBox.Show(reporte, "Pruebas");
         }
 
         private int ContarSeleccionadas()

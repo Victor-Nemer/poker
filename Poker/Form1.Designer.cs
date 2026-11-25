@@ -33,6 +33,10 @@ namespace Poker
             this.lblTituloPozo = new System.Windows.Forms.Label();
             this.picPozo = new System.Windows.Forms.PictureBox();
             this.lblTituloMesa = new System.Windows.Forms.Label();
+            this.lblModoDemo = new System.Windows.Forms.Label();
+            this.cmbEscenarios = new System.Windows.Forms.ComboBox();
+            this.btnCargarEscenario = new System.Windows.Forms.Button();
+            this.btnPruebas = new System.Windows.Forms.Button();
             this.lblTituloIA = new System.Windows.Forms.Label();
             this.picIA0 = new System.Windows.Forms.PictureBox();
             this.picIA1 = new System.Windows.Forms.PictureBox();
@@ -99,7 +103,7 @@ namespace Poker
             this.pnlLateral.Controls.Add(this.lblTituloMesa);
             this.pnlLateral.Location = new System.Drawing.Point(0, 0);
             this.pnlLateral.Name = "pnlLateral";
-            this.pnlLateral.Size = new System.Drawing.Size(245, 680);
+            this.pnlLateral.Size = new System.Drawing.Size(245, 712);
             this.pnlLateral.TabIndex = 0;
             // 
             // pnlMarcador
@@ -264,65 +268,114 @@ namespace Poker
             this.lblTituloMesa.TabIndex = 0;
             this.lblTituloMesa.Text = "POKER 5 CARTAS";
             // 
+            // lblModoDemo
+            // 
+            this.lblModoDemo.AutoSize = true;
+            this.lblModoDemo.Font = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Bold);
+            this.lblModoDemo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(245)))), ((int)(((byte)(220)))));
+            this.lblModoDemo.Location = new System.Drawing.Point(270, 16);
+            this.lblModoDemo.Name = "lblModoDemo";
+            this.lblModoDemo.Size = new System.Drawing.Size(102, 17);
+            this.lblModoDemo.TabIndex = 1;
+            this.lblModoDemo.Text = "Modo Pruebas:";
+            // 
+            // cmbEscenarios
+            // 
+            this.cmbEscenarios.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbEscenarios.Font = new System.Drawing.Font("Segoe UI", 9.5F);
+            this.cmbEscenarios.FormattingEnabled = true;
+            this.cmbEscenarios.Location = new System.Drawing.Point(380, 13);
+            this.cmbEscenarios.Name = "cmbEscenarios";
+            this.cmbEscenarios.Size = new System.Drawing.Size(375, 24);
+            this.cmbEscenarios.TabIndex = 2;
+            // 
+            // btnCargarEscenario
+            // 
+            this.btnCargarEscenario.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(238)))), ((int)(((byte)(248)))));
+            this.btnCargarEscenario.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnCargarEscenario.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCargarEscenario.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.btnCargarEscenario.Location = new System.Drawing.Point(765, 11);
+            this.btnCargarEscenario.Name = "btnCargarEscenario";
+            this.btnCargarEscenario.Size = new System.Drawing.Size(135, 28);
+            this.btnCargarEscenario.TabIndex = 3;
+            this.btnCargarEscenario.Text = "Cargar Escenario";
+            this.btnCargarEscenario.UseVisualStyleBackColor = false;
+            this.btnCargarEscenario.Click += new System.EventHandler(this.btnCargarEscenario_Click);
+            // 
+            // btnPruebas
+            // 
+            this.btnPruebas.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(240)))), ((int)(((byte)(220)))));
+            this.btnPruebas.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnPruebas.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnPruebas.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.btnPruebas.Location = new System.Drawing.Point(910, 11);
+            this.btnPruebas.Name = "btnPruebas";
+            this.btnPruebas.Size = new System.Drawing.Size(165, 28);
+            this.btnPruebas.TabIndex = 4;
+            this.btnPruebas.Text = "Ejecutar Pruebas (IA)";
+            this.btnPruebas.UseVisualStyleBackColor = false;
+            this.btnPruebas.Click += new System.EventHandler(this.btnPruebas_Click);
+            // 
             // lblTituloIA
             // 
             this.lblTituloIA.AutoSize = true;
             this.lblTituloIA.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
             this.lblTituloIA.ForeColor = System.Drawing.Color.White;
-            this.lblTituloIA.Location = new System.Drawing.Point(350, 14);
+            this.lblTituloIA.Location = new System.Drawing.Point(350, 46);
             this.lblTituloIA.Name = "lblTituloIA";
             this.lblTituloIA.Size = new System.Drawing.Size(222, 20);
-            this.lblTituloIA.TabIndex = 1;
+            this.lblTituloIA.TabIndex = 5;
             this.lblTituloIA.Text = "Mano de la Computadora (IA):";
             // 
             // picIA0
             // 
             this.picIA0.BackColor = System.Drawing.Color.Transparent;
-            this.picIA0.Location = new System.Drawing.Point(350, 40);
+            this.picIA0.Location = new System.Drawing.Point(350, 72);
             this.picIA0.Name = "picIA0";
             this.picIA0.Size = new System.Drawing.Size(115, 165);
             this.picIA0.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.picIA0.TabIndex = 2;
+            this.picIA0.TabIndex = 6;
             this.picIA0.TabStop = false;
             // 
             // picIA1
             // 
             this.picIA1.BackColor = System.Drawing.Color.Transparent;
-            this.picIA1.Location = new System.Drawing.Point(480, 40);
+            this.picIA1.Location = new System.Drawing.Point(480, 72);
             this.picIA1.Name = "picIA1";
             this.picIA1.Size = new System.Drawing.Size(115, 165);
             this.picIA1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.picIA1.TabIndex = 3;
+            this.picIA1.TabIndex = 7;
             this.picIA1.TabStop = false;
             // 
             // picIA2
             // 
             this.picIA2.BackColor = System.Drawing.Color.Transparent;
-            this.picIA2.Location = new System.Drawing.Point(610, 40);
+            this.picIA2.Location = new System.Drawing.Point(610, 72);
             this.picIA2.Name = "picIA2";
             this.picIA2.Size = new System.Drawing.Size(115, 165);
             this.picIA2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.picIA2.TabIndex = 4;
+            this.picIA2.TabIndex = 8;
             this.picIA2.TabStop = false;
             // 
             // picIA3
             // 
             this.picIA3.BackColor = System.Drawing.Color.Transparent;
-            this.picIA3.Location = new System.Drawing.Point(740, 40);
+            this.picIA3.Location = new System.Drawing.Point(740, 72);
             this.picIA3.Name = "picIA3";
             this.picIA3.Size = new System.Drawing.Size(115, 165);
             this.picIA3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.picIA3.TabIndex = 5;
+            this.picIA3.TabIndex = 9;
             this.picIA3.TabStop = false;
             // 
             // picIA4
             // 
             this.picIA4.BackColor = System.Drawing.Color.Transparent;
-            this.picIA4.Location = new System.Drawing.Point(870, 40);
+            this.picIA4.Location = new System.Drawing.Point(870, 72);
             this.picIA4.Name = "picIA4";
             this.picIA4.Size = new System.Drawing.Size(115, 165);
             this.picIA4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.picIA4.TabIndex = 6;
+            this.picIA4.TabIndex = 10;
             this.picIA4.TabStop = false;
             // 
             // lblDecisionIA
@@ -331,11 +384,11 @@ namespace Poker
             this.lblDecisionIA.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblDecisionIA.Font = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Italic);
             this.lblDecisionIA.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(245)))), ((int)(((byte)(225)))));
-            this.lblDecisionIA.Location = new System.Drawing.Point(350, 212);
+            this.lblDecisionIA.Location = new System.Drawing.Point(310, 244);
             this.lblDecisionIA.Name = "lblDecisionIA";
-            this.lblDecisionIA.Size = new System.Drawing.Size(635, 26);
-            this.lblDecisionIA.TabIndex = 7;
-            this.lblDecisionIA.Text = "Esperando inicio de ronda...";
+            this.lblDecisionIA.Size = new System.Drawing.Size(715, 26);
+            this.lblDecisionIA.TabIndex = 11;
+            this.lblDecisionIA.Text = "Decision IA: Esperando inicio de ronda...";
             this.lblDecisionIA.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lblEstado
@@ -344,10 +397,10 @@ namespace Poker
             this.lblEstado.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblEstado.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
             this.lblEstado.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(232)))), ((int)(((byte)(130)))));
-            this.lblEstado.Location = new System.Drawing.Point(310, 246);
+            this.lblEstado.Location = new System.Drawing.Point(310, 278);
             this.lblEstado.Name = "lblEstado";
             this.lblEstado.Size = new System.Drawing.Size(715, 30);
-            this.lblEstado.TabIndex = 8;
+            this.lblEstado.TabIndex = 12;
             this.lblEstado.Text = "Presiona 'Repartir Nueva Mano' para comenzar.";
             this.lblEstado.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -359,10 +412,10 @@ namespace Poker
             this.btnRepartir.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRepartir.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.btnRepartir.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(25)))), ((int)(((byte)(25)))));
-            this.btnRepartir.Location = new System.Drawing.Point(430, 286);
+            this.btnRepartir.Location = new System.Drawing.Point(430, 318);
             this.btnRepartir.Name = "btnRepartir";
             this.btnRepartir.Size = new System.Drawing.Size(220, 36);
-            this.btnRepartir.TabIndex = 9;
+            this.btnRepartir.TabIndex = 13;
             this.btnRepartir.Text = "Repartir Nueva Mano";
             this.btnRepartir.UseVisualStyleBackColor = false;
             this.btnRepartir.Click += new System.EventHandler(this.btnRepartir_Click);
@@ -376,10 +429,10 @@ namespace Poker
             this.btnCambiar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCambiar.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.btnCambiar.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(25)))), ((int)(((byte)(25)))));
-            this.btnCambiar.Location = new System.Drawing.Point(670, 286);
+            this.btnCambiar.Location = new System.Drawing.Point(670, 318);
             this.btnCambiar.Name = "btnCambiar";
             this.btnCambiar.Size = new System.Drawing.Size(245, 36);
-            this.btnCambiar.TabIndex = 10;
+            this.btnCambiar.TabIndex = 14;
             this.btnCambiar.Text = "Cambiar Cartas (0)";
             this.btnCambiar.UseVisualStyleBackColor = false;
             this.btnCambiar.Click += new System.EventHandler(this.btnCambiar_Click);
@@ -397,10 +450,10 @@ namespace Poker
             this.pnlApuestas.Controls.Add(this.picFicha50);
             this.pnlApuestas.Controls.Add(this.picFicha25);
             this.pnlApuestas.Controls.Add(this.lblTituloFichas);
-            this.pnlApuestas.Location = new System.Drawing.Point(310, 330);
+            this.pnlApuestas.Location = new System.Drawing.Point(310, 362);
             this.pnlApuestas.Name = "pnlApuestas";
             this.pnlApuestas.Size = new System.Drawing.Size(715, 76);
-            this.pnlApuestas.TabIndex = 11;
+            this.pnlApuestas.TabIndex = 15;
             // 
             // btnRetirarse
             // 
@@ -532,21 +585,21 @@ namespace Poker
             this.lblTituloJugador.AutoSize = true;
             this.lblTituloJugador.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
             this.lblTituloJugador.ForeColor = System.Drawing.Color.White;
-            this.lblTituloJugador.Location = new System.Drawing.Point(350, 414);
+            this.lblTituloJugador.Location = new System.Drawing.Point(350, 446);
             this.lblTituloJugador.Name = "lblTituloJugador";
             this.lblTituloJugador.Size = new System.Drawing.Size(377, 20);
-            this.lblTituloJugador.TabIndex = 12;
+            this.lblTituloJugador.TabIndex = 16;
             this.lblTituloJugador.Text = "Tu Mano (haz clic en las cartas que quieras cambiar):";
             // 
             // picJugador0
             // 
             this.picJugador0.BackColor = System.Drawing.Color.Transparent;
             this.picJugador0.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.picJugador0.Location = new System.Drawing.Point(350, 452);
+            this.picJugador0.Location = new System.Drawing.Point(350, 484);
             this.picJugador0.Name = "picJugador0";
             this.picJugador0.Size = new System.Drawing.Size(115, 165);
             this.picJugador0.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.picJugador0.TabIndex = 13;
+            this.picJugador0.TabIndex = 17;
             this.picJugador0.TabStop = false;
             this.picJugador0.Click += new System.EventHandler(this.CuadroJugador_Click);
             // 
@@ -554,11 +607,11 @@ namespace Poker
             // 
             this.picJugador1.BackColor = System.Drawing.Color.Transparent;
             this.picJugador1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.picJugador1.Location = new System.Drawing.Point(480, 452);
+            this.picJugador1.Location = new System.Drawing.Point(480, 484);
             this.picJugador1.Name = "picJugador1";
             this.picJugador1.Size = new System.Drawing.Size(115, 165);
             this.picJugador1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.picJugador1.TabIndex = 14;
+            this.picJugador1.TabIndex = 18;
             this.picJugador1.TabStop = false;
             this.picJugador1.Click += new System.EventHandler(this.CuadroJugador_Click);
             // 
@@ -566,11 +619,11 @@ namespace Poker
             // 
             this.picJugador2.BackColor = System.Drawing.Color.Transparent;
             this.picJugador2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.picJugador2.Location = new System.Drawing.Point(610, 452);
+            this.picJugador2.Location = new System.Drawing.Point(610, 484);
             this.picJugador2.Name = "picJugador2";
             this.picJugador2.Size = new System.Drawing.Size(115, 165);
             this.picJugador2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.picJugador2.TabIndex = 15;
+            this.picJugador2.TabIndex = 19;
             this.picJugador2.TabStop = false;
             this.picJugador2.Click += new System.EventHandler(this.CuadroJugador_Click);
             // 
@@ -578,11 +631,11 @@ namespace Poker
             // 
             this.picJugador3.BackColor = System.Drawing.Color.Transparent;
             this.picJugador3.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.picJugador3.Location = new System.Drawing.Point(740, 452);
+            this.picJugador3.Location = new System.Drawing.Point(740, 484);
             this.picJugador3.Name = "picJugador3";
             this.picJugador3.Size = new System.Drawing.Size(115, 165);
             this.picJugador3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.picJugador3.TabIndex = 16;
+            this.picJugador3.TabIndex = 20;
             this.picJugador3.TabStop = false;
             this.picJugador3.Click += new System.EventHandler(this.CuadroJugador_Click);
             // 
@@ -590,11 +643,11 @@ namespace Poker
             // 
             this.picJugador4.BackColor = System.Drawing.Color.Transparent;
             this.picJugador4.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.picJugador4.Location = new System.Drawing.Point(870, 452);
+            this.picJugador4.Location = new System.Drawing.Point(870, 484);
             this.picJugador4.Name = "picJugador4";
             this.picJugador4.Size = new System.Drawing.Size(115, 165);
             this.picJugador4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.picJugador4.TabIndex = 17;
+            this.picJugador4.TabIndex = 21;
             this.picJugador4.TabStop = false;
             this.picJugador4.Click += new System.EventHandler(this.CuadroJugador_Click);
             // 
@@ -603,10 +656,10 @@ namespace Poker
             this.lblSel0.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(178)))), ((int)(((byte)(35)))));
             this.lblSel0.Font = new System.Drawing.Font("Segoe UI", 8.5F, System.Drawing.FontStyle.Bold);
             this.lblSel0.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
-            this.lblSel0.Location = new System.Drawing.Point(350, 620);
+            this.lblSel0.Location = new System.Drawing.Point(350, 652);
             this.lblSel0.Name = "lblSel0";
             this.lblSel0.Size = new System.Drawing.Size(115, 18);
-            this.lblSel0.TabIndex = 18;
+            this.lblSel0.TabIndex = 22;
             this.lblSel0.Text = "CAMBIAR";
             this.lblSel0.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lblSel0.Visible = false;
@@ -616,10 +669,10 @@ namespace Poker
             this.lblSel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(178)))), ((int)(((byte)(35)))));
             this.lblSel1.Font = new System.Drawing.Font("Segoe UI", 8.5F, System.Drawing.FontStyle.Bold);
             this.lblSel1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
-            this.lblSel1.Location = new System.Drawing.Point(480, 620);
+            this.lblSel1.Location = new System.Drawing.Point(480, 652);
             this.lblSel1.Name = "lblSel1";
             this.lblSel1.Size = new System.Drawing.Size(115, 18);
-            this.lblSel1.TabIndex = 19;
+            this.lblSel1.TabIndex = 23;
             this.lblSel1.Text = "CAMBIAR";
             this.lblSel1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lblSel1.Visible = false;
@@ -629,10 +682,10 @@ namespace Poker
             this.lblSel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(178)))), ((int)(((byte)(35)))));
             this.lblSel2.Font = new System.Drawing.Font("Segoe UI", 8.5F, System.Drawing.FontStyle.Bold);
             this.lblSel2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
-            this.lblSel2.Location = new System.Drawing.Point(610, 620);
+            this.lblSel2.Location = new System.Drawing.Point(610, 652);
             this.lblSel2.Name = "lblSel2";
             this.lblSel2.Size = new System.Drawing.Size(115, 18);
-            this.lblSel2.TabIndex = 20;
+            this.lblSel2.TabIndex = 24;
             this.lblSel2.Text = "CAMBIAR";
             this.lblSel2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lblSel2.Visible = false;
@@ -642,10 +695,10 @@ namespace Poker
             this.lblSel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(178)))), ((int)(((byte)(35)))));
             this.lblSel3.Font = new System.Drawing.Font("Segoe UI", 8.5F, System.Drawing.FontStyle.Bold);
             this.lblSel3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
-            this.lblSel3.Location = new System.Drawing.Point(740, 620);
+            this.lblSel3.Location = new System.Drawing.Point(740, 652);
             this.lblSel3.Name = "lblSel3";
             this.lblSel3.Size = new System.Drawing.Size(115, 18);
-            this.lblSel3.TabIndex = 21;
+            this.lblSel3.TabIndex = 25;
             this.lblSel3.Text = "CAMBIAR";
             this.lblSel3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lblSel3.Visible = false;
@@ -655,10 +708,10 @@ namespace Poker
             this.lblSel4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(178)))), ((int)(((byte)(35)))));
             this.lblSel4.Font = new System.Drawing.Font("Segoe UI", 8.5F, System.Drawing.FontStyle.Bold);
             this.lblSel4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
-            this.lblSel4.Location = new System.Drawing.Point(870, 620);
+            this.lblSel4.Location = new System.Drawing.Point(870, 652);
             this.lblSel4.Name = "lblSel4";
             this.lblSel4.Size = new System.Drawing.Size(115, 18);
-            this.lblSel4.TabIndex = 22;
+            this.lblSel4.TabIndex = 26;
             this.lblSel4.Text = "CAMBIAR";
             this.lblSel4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lblSel4.Visible = false;
@@ -667,10 +720,10 @@ namespace Poker
             // 
             this.lblManoJugador.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.lblManoJugador.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(245)))), ((int)(((byte)(220)))));
-            this.lblManoJugador.Location = new System.Drawing.Point(350, 644);
+            this.lblManoJugador.Location = new System.Drawing.Point(350, 676);
             this.lblManoJugador.Name = "lblManoJugador";
             this.lblManoJugador.Size = new System.Drawing.Size(635, 22);
-            this.lblManoJugador.TabIndex = 23;
+            this.lblManoJugador.TabIndex = 27;
             this.lblManoJugador.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Form1
@@ -678,7 +731,7 @@ namespace Poker
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(88)))), ((int)(((byte)(52)))));
-            this.ClientSize = new System.Drawing.Size(1100, 680);
+            this.ClientSize = new System.Drawing.Size(1100, 712);
             this.Controls.Add(this.lblManoJugador);
             this.Controls.Add(this.lblSel4);
             this.Controls.Add(this.lblSel3);
@@ -702,6 +755,10 @@ namespace Poker
             this.Controls.Add(this.picIA1);
             this.Controls.Add(this.picIA0);
             this.Controls.Add(this.lblTituloIA);
+            this.Controls.Add(this.btnPruebas);
+            this.Controls.Add(this.btnCargarEscenario);
+            this.Controls.Add(this.cmbEscenarios);
+            this.Controls.Add(this.lblModoDemo);
             this.Controls.Add(this.pnlLateral);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
@@ -758,6 +815,10 @@ namespace Poker
         private System.Windows.Forms.Panel pnlMarcador;
         private System.Windows.Forms.Label lblTituloMarcador;
         private System.Windows.Forms.Label lblMarcador;
+        private System.Windows.Forms.Label lblModoDemo;
+        private System.Windows.Forms.ComboBox cmbEscenarios;
+        private System.Windows.Forms.Button btnCargarEscenario;
+        private System.Windows.Forms.Button btnPruebas;
         private System.Windows.Forms.Label lblTituloIA;
         private System.Windows.Forms.PictureBox picIA0;
         private System.Windows.Forms.PictureBox picIA1;
